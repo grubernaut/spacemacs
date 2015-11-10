@@ -25,6 +25,7 @@ values."
      ;; ----------------------------------------------------------------
      auto-completion
      better-defaults
+     colors
      emacs-lisp
      git
      go
@@ -32,6 +33,8 @@ values."
      lua
      markdown
      org
+     osx
+     puppet
      ruby
      (shell :variables
              shell-default-height 30
@@ -46,9 +49,11 @@ values."
    ;; configuration in `dotspacemacs/config'.
    dotspacemacs-additional-packages
    '(
+     coffee-mode
      diff-hl
      flycheck
      gotest
+     hcl-mode
      magit
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
@@ -183,7 +188,7 @@ values."
    dotspacemacs-smooth-scrolling t
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
-   dotspacemacs-smartparens-strict-mode nil
+   dotspacemacs-smartparens-strict-mode t
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
@@ -211,13 +216,16 @@ user code."
   "Configuration function for user code.
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user cod01e."
-  (go-eldoc-setup)
   (setq gofmt-command "goimports")
   (define-key go-mode-map (kbd "C-x x") 'go-run)
   (global-set-key (kbd "<f1>") 'magit-status)
-  (global-diff-hl-mode +1)
   (setq explicit-shell-file-name "/bin/zsh" )
   (global-set-key (kbd "<f2>") 'visit-ansi-term)
+  (setq system-uses-terminfo nil)
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
+  (define-key evil-emacs-state-map [escape] nil)
 )
 
 (defun visit-ansi-term ()
