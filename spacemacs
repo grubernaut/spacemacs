@@ -55,6 +55,7 @@ values."
      gotest
      hcl-mode
      magit
+     terraform-mode
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages
@@ -188,7 +189,7 @@ values."
    dotspacemacs-smooth-scrolling t
    ;; If non-nil smartparens-strict-mode will be enabled in programming modes.
    ;; (default nil)
-   dotspacemacs-smartparens-strict-mode t
+   dotspacemacs-smartparens-strict-mode nil
    ;; Select a scope to highlight delimiters. Possible values are `any',
    ;; `current', `all' or `nil'. Default is `all' (highlight any scope and
    ;; emphasis the current one). (default 'all)
@@ -226,6 +227,8 @@ layers configuration. You are free to put any user cod01e."
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
   (define-key evil-emacs-state-map [escape] nil)
+  (setq hcl-indent-level 4)
+  (setq terraform-indent-level 4)
 )
 
 (defun visit-ansi-term ()
