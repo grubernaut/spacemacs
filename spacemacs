@@ -229,6 +229,7 @@ layers configuration. You are free to put any user cod01e."
   (define-key evil-emacs-state-map [escape] nil)
   (setq hcl-indent-level 4)
   (setq terraform-indent-level 4)
+  (setq js-indent-level 2)
 )
 
 (defun visit-ansi-term ()
