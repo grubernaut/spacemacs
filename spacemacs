@@ -36,6 +36,8 @@ values."
      osx
      puppet
      ruby
+     rust
+     yaml
      (shell :variables
              shell-default-height 30
              shell-default-position 'bottom)
@@ -55,7 +57,12 @@ values."
      gotest
      hcl-mode
      magit
+     toml-mode
      terraform-mode
+     color-theme-solarized
+     zenburn-theme
+     monokai-theme
+     dracula-theme
      )
    ;; A list of packages and/or extensions that will not be install and loaded.
    dotspacemacs-excluded-packages
@@ -97,13 +104,13 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(spacemacs-dark
+   dotspacemacs-themes '(zenburn
+                         spacemacs-dark
                          spacemacs-light
                          solarized-light
                          solarized-dark
                          leuven
-                         monokai
-                         zenburn)
+                         monokai)
    ;; If non nil the cursor color matches the state color.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
@@ -218,7 +225,6 @@ user code."
  This function is called at the very end of Spacemacs initialization after
 layers configuration. You are free to put any user cod01e."
   (setq gofmt-command "goimports")
-  (define-key go-mode-map (kbd "C-x x") 'go-run)
   (global-set-key (kbd "<f1>") 'magit-status)
   (setq explicit-shell-file-name "/bin/zsh" )
   (global-set-key (kbd "<f2>") 'visit-ansi-term)
@@ -227,9 +233,14 @@ layers configuration. You are free to put any user cod01e."
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "<C-tab>") 'yas-expand)
   (define-key evil-emacs-state-map [escape] nil)
-  (setq hcl-indent-level 4)
-  (setq terraform-indent-level 4)
+  (add-to-list 'auto-mode-alist '("\\.job\\'" . hcl-mode))
+  (setq hcl-indent-level 2)
+  (setq terraform-indent-level 2)
   (setq js-indent-level 2)
+  (setq sh-indentation 2)
+  (setq sh-basic-offset 2)
+  (powerline-center-theme)
+  (rust-enable-format-on-save)
 )
 
 (defun visit-ansi-term ()
@@ -262,3 +273,46 @@ layers configuration. You are free to put any user cod01e."
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-safe-themes
+   (quote
+    ("6c62b1cd715d26eb5aa53843ed9a54fc2b0d7c5e0f5118d4efafa13d7715c56e" "1bacdd5d24f187f273f488a23c977f26452dffbc82d4ac57250aa041f14159da" "8db4b03b9ae654d4a57804286eb3e332725c84d7cdab38463cb6b97d5762ad26" "4cf3221feff536e2b3385209e9b9dc4c2e0818a69a1cdb4b522756bcdf4e00a4" "77c65d672b375c1e07383a9a22c9f9fc1dec34c8774fe8e5b21e76dca06d3b09" "4aee8551b53a43a883cb0b7f3255d6859d766b6c5e14bcb01bed572fcbef4328" "20e359ef1818a838aff271a72f0f689f5551a27704bf1c9469a5c2657b417e6c" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ '(fci-rule-color "#383838")
+ '(magit-commit-arguments (quote ("--gpg-sign=DC31F41958EF4AC2")))
+ '(nrepl-message-colors
+   (quote
+    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
+ '(vc-annotate-background "#2B2B2B")
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#BC8383")
+     (40 . "#CC9393")
+     (60 . "#DFAF8F")
+     (80 . "#D0BF8F")
+     (100 . "#E0CF9F")
+     (120 . "#F0DFAF")
+     (140 . "#5F7F5F")
+     (160 . "#7F9F7F")
+     (180 . "#8FB28F")
+     (200 . "#9FC59F")
+     (220 . "#AFD8AF")
+     (240 . "#BFEBBF")
+     (260 . "#93E0E3")
+     (280 . "#6CA0A3")
+     (300 . "#7CB8BB")
+     (320 . "#8CD0D3")
+     (340 . "#94BFF3")
+     (360 . "#DC8CC3"))))
+ '(vc-annotate-very-old-color "#DC8CC3"))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((t (:background nil))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
