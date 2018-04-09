@@ -36,6 +36,7 @@ values."
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      ivy
@@ -51,6 +52,9 @@ values."
      go
      rust
      org
+     (org :variables
+          org-enable-github-support t
+          )
      shell
      (shell :variables
              shell-default-shell 'eshell
@@ -81,7 +85,8 @@ values."
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
    dotspacemacs-excluded-packages '(
-     org-projectile
+                                    org-projectile
+                                    winum
    )
    ;; Defines the behaviour of Spacemacs when installing packages.
    ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -157,10 +162,10 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Code Pro"
-                               :size 13
+                               :size 12
                                :weight normal
-                               :width normal
-                               :powerline-scale 1.1)
+                               :width normal)
+                               ;:powerline-scale 1.5)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -265,7 +270,7 @@ values."
    ;; If non nil show the color guide hint for transient state keys. (default t)
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -338,7 +343,7 @@ you should place your code here."
   (setq gofmt-command "goimports")
   (global-set-key (kbd "<f1>") 'magit-status)
   (setq explicit-shell-file-name "/usr/local/bin/zsh" )
-  ;(global-set-key (kbd "<f2>") 'visit-ansi-term)
+  (global-set-key (kbd "<f2>") 'eshell)
   ;(setq system-uses-terminfo nil)
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
@@ -350,9 +355,18 @@ you should place your code here."
   (setq js-indent-level 2)
   (setq sh-indentation 2)
   (setq sh-basic-offset 2)
-  (setq rust-enable-format-on-save t)
+  (add-hook 'rust-mode-hook (lambda()
+                              (rust-enable-format-on-save)
+                              ))
   (spacemacs/set-leader-keys "o" 'spacemacs/workspaces-transient-state/body)
   (global-set-key (kbd "<f12>") 'spacemacs/workspaces-transient-state/body)
+  (global-set-key (kbd "M-0") 'eyebrowse-switch-to-window-config-0)
+  (global-set-key (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
+  (global-set-key (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
+  (global-set-key (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
+  (global-set-key (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
+  (global-set-key (kbd "M-5") 'eyebrowse-switch-to-window-config-5)
+  (global-set-key (kbd "M-6") 'eyebrowse-switch-to-window-config-6)
   (setq go-tab-width 2)
   )
 
@@ -365,7 +379,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data yagist smeargle orgit magit-gitflow gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit yaml-mode xterm-color unfill toml-mode terraform-mode shell-pop racer org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit magit-popup ghub let-alist lua-mode intero htmlize hlint-refactor hindent hcl-mode haskell-snippets gotest go-guru go-eldoc gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter gh-md fuzzy flyspell-correct-ivy flyspell-correct flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company cmm-mode cargo rust-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+    (ox-gfm web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data yagist smeargle orgit magit-gitflow gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit yaml-mode xterm-color unfill toml-mode terraform-mode shell-pop racer org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit magit-popup ghub let-alist lua-mode intero htmlize hlint-refactor hindent hcl-mode haskell-snippets gotest go-guru go-eldoc gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter gh-md fuzzy flyspell-correct-ivy flyspell-correct flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company cmm-mode cargo rust-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
