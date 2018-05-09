@@ -1,6 +1,6 @@
 alias jclang clang -std=c11 -pedantic -Wall -Wextra -g $*
-alias la ls -lAh
+alias la ls -lAh $*
 alias l ls -lah $*
 alias gwd git diff --no-ext-diff
 alias gws git status --short
-alias ll ls -lh
+alias ll ls -lh $*
