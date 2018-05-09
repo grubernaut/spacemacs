@@ -32,6 +32,7 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     csv
      javascript
      html
      ;; ----------------------------------------------------------------
@@ -51,6 +52,7 @@ values."
      yaml
      terraform
      go
+     c-c++
      rust
      org
      (org :variables
@@ -81,6 +83,7 @@ values."
      racer
      cargo
      flycheck-rust
+     ox-gfm
    )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -357,6 +360,8 @@ you should place your code here."
   (setq sh-indentation 2)
   (setq sh-basic-offset 2)
   (setq go-tab-width 2)
+  (setq-default dotspacemacs-configuration-layers
+                '((c-c++ :variables c-c++-enable-clang-support t)))
   (add-hook 'rust-mode-hook (lambda()
                               (rust-enable-format-on-save)
                               ))
@@ -371,6 +376,20 @@ you should place your code here."
   (global-set-key (kbd "M-6") 'eyebrowse-switch-to-window-config-6)
 
   (setq backup-directory-alist `(("." . "~/.saves")))
+  (add-hook 'c-mode-common-hook
+            (function (lambda ()
+                        (add-hook 'before-save-hook
+                                  'clang-format-buffer))))
+  (setq eshell-aliases-file "/home/jake/.eshell-aliases")
+  (defun eshell-clear-buffer ()
+  "Clear terminal"
+  (interactive)
+  (let ((inhibit-read-only t))
+    (erase-buffer)
+    (eshell-send-input)))
+  (add-hook 'eshell-mode-hook
+      '(lambda()
+          (local-set-key (kbd "C-l") 'eshell-clear-buffer)))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -382,7 +401,7 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode ox-gfm web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data yagist smeargle orgit magit-gitflow gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit yaml-mode xterm-color unfill toml-mode terraform-mode shell-pop racer org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit magit-popup ghub let-alist lua-mode intero htmlize hlint-refactor hindent hcl-mode haskell-snippets gotest go-guru go-eldoc gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter gh-md fuzzy flyspell-correct-ivy flyspell-correct flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company cmm-mode cargo rust-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
+    (disaster company-c-headers cmake-mode clang-format csv-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode ox-gfm web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode haml-mode emmet-mode company-web web-completion-data yagist smeargle orgit magit-gitflow gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit yaml-mode xterm-color unfill toml-mode terraform-mode shell-pop racer org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode markdown-toc markdown-mode magit magit-popup ghub let-alist lua-mode intero htmlize hlint-refactor hindent hcl-mode haskell-snippets gotest go-guru go-eldoc gnuplot git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-commit with-editor git-gutter gh-md fuzzy flyspell-correct-ivy flyspell-correct flycheck-rust flycheck-pos-tip pos-tip flycheck-haskell flycheck eshell-z eshell-prompt-extras esh-help diff-hl company-statistics company-go go-mode company-ghci company-ghc ghc haskell-mode company-cabal company cmm-mode cargo rust-mode auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler winum which-key wgrep volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline smex restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint ivy-hydra indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-make helm helm-core google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump popup f dash s diminish define-word counsel-projectile projectile pkg-info epl counsel swiper ivy column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed async aggressive-indent adaptive-wrap ace-window ace-link avy))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
